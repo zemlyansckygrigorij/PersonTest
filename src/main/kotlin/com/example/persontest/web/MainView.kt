@@ -7,6 +7,7 @@ import com.example.persontest.entity.PersonWeb
 import com.example.persontest.repo.PersonServiceImpl
 import com.github.mvysny.karibudsl.v10.*
 import com.github.mvysny.kaributools.asc
+import com.github.mvysny.kaributools.getColumnBy
 import com.github.mvysny.kaributools.setPrimary
 import com.github.mvysny.kaributools.sort
 import com.vaadin.flow.component.Key
@@ -39,11 +40,12 @@ class MainView @Autowired constructor(
     val personServiceImpl: PersonServiceImpl
 )  : KComposite() {
     private lateinit var nameField: TextField
+    private lateinit var filterByNameField : TextField
     private lateinit var locationField: TextField
-    private lateinit var birthdayField: TextField
     private lateinit var  label :  Label
     private lateinit var addButton: Button
     private lateinit var deleteButton: Button
+    private lateinit var filterButton: Button
     private lateinit var grid: Grid<PersonWeb>
     private  var personMapper= PersonMapper()
     private  var persons =ArrayList<PersonWeb>()
@@ -64,12 +66,15 @@ class MainView @Autowired constructor(
             deleteButton = button("Delete") {
                 setPrimary(); addClickShortcut(Key.ENTER)
             }
-
+            filterByNameField = textField("поиск по имени")
+            filterButton = button("filter") {
+                setPrimary(); addClickShortcut(Key.ENTER)
+            }
             grid = grid {
                 isExpand = true;
                 setSizeFull()
                 isHeightByRows = true
-                persons =personMapper.getPersonWebList(personServiceImpl.findAll())
+                persons = personMapper.getPersonWebList(personServiceImpl.findAll())
                 setItems(persons)
                 columnFor(PersonWeb::id)
                     .setAutoWidth(true)
@@ -96,7 +101,6 @@ class MainView @Autowired constructor(
 
         // Button click listeners can be defined as lambda expressions
         addButton.onLeftClick {
-           //Notification.show("Hello, ${nameField.value}")
             var person = Person()
             person.name=nameField.value
             person.location=locationField.value
@@ -104,11 +108,17 @@ class MainView @Autowired constructor(
             personServiceImpl.save(person)
             UI.getCurrent().getPage().reload();
         }
+
         deleteButton.onLeftClick {
             var personser = grid.selectedItems
-           // Notification.show("Hello, ${personser.stream().findFirst().get().id}")
             personServiceImpl.deleteById(personser.stream().findFirst().get().id!!)
             UI.getCurrent().getPage().reload();
+        }
+
+        filterButton.onLeftClick {
+            val filterBar = filterByNameField.value
+            grid.setItems(personMapper.getPersonWebListSelected(personServiceImpl.findAll(),filterBar ))
+
         }
     }
 }
