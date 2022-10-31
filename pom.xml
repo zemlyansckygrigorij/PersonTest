@@ -24,6 +24,7 @@
         <jetty.version>9.4.43.v20210629</jetty.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <kotlin.version>1.7.20</kotlin.version>
+        <liquibase.version>4.1.1</liquibase.version>
     </properties>
     <repositories>
         <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
@@ -123,6 +124,11 @@
             <groupId>com.github.rjeschke</groupId>
             <artifactId>txtmark</artifactId>
             <version>0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
