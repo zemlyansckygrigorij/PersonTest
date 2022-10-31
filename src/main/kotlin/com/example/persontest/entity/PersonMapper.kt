@@ -47,4 +47,11 @@ class PersonMapper {
         }
         return personWebList;
     }
+    fun getPersonWebListSelected(persons: ArrayList<Person>,subStr:String): ArrayList<PersonWeb>{
+        var personWebList = ArrayList<PersonWeb>()
+        persons.forEach {
+            if(it.name?.contains(subStr) == true) personWebList.add(getPersonWeb(it)!!)
+        }
+        return personWebList;
+    }
 }
