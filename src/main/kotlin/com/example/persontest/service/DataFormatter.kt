@@ -4,6 +4,11 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * class DataFormatter
+ */
 class DataFormatter {
 
     val formatter = SimpleDateFormat("dd/MM/yyyy")
