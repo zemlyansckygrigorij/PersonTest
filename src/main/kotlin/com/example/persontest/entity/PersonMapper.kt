@@ -32,4 +32,19 @@ class PersonMapper {
         data= mapOf("name" to person.name as Any,"birthday" to dateString as Any, "location" to person.location as Any)
         return  PersonDao(id ,data)
     }
+    fun getPersonWeb(person: Person): PersonWeb?{
+        var personWeb = PersonWeb();
+        personWeb.id = person.id
+        personWeb.name = person.name
+        personWeb.location = person.location
+        personWeb.birthDay = person.birthDay?.let { formatter.dateToString(it) }
+        return  personWeb
+    }
+    fun getPersonWebList(persons: ArrayList<Person>): ArrayList<PersonWeb>{
+        var personWebList = ArrayList<PersonWeb>()
+        persons.forEach {
+            personWebList.add(getPersonWeb(it)!!)
+        }
+        return personWebList;
+    }
 }
